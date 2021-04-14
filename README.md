@@ -5,7 +5,7 @@
   - v 1.0     initial version
   - v 1.1     test features added
 ------------------------------------------------------------------------
-This software/sourcecode is released under the terms of GPL v.3.0
+- This software/sourcecode is released under the terms of GPL v.3.0
 ------------------------------------------------------------------------
 
 ### Dependencies to add-on and external modules
