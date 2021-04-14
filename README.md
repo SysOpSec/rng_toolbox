@@ -7,16 +7,18 @@
   v 1.1     test features added
   
 ------------------------------------------------------------------------
-This software/sourcecode is released under the terms of GPL v.3.0
+  This software/sourcecode is released under the terms of GPL v.3.0
 ------------------------------------------------------------------------
 README
 
-Dependencies to add-on and external modules
+# Dependencies to add-on and external modules
+
 Matlab -  signal/statistik
 
 External - memory2 by Jerome Briot
 External . polarplor3d by ...unknown...
 External - ltfat
+
 
 
 
