@@ -1,17 +1,14 @@
-## Random numbers toolbox (for MatLab)
+# Random numbers toolbox (for MatLab)
 ------------------------------------------------------------------------
   (c) 2019, 2020, 2021 Andreas Huemmer <andreas.huemmer@sysopsec.de>
-  
   v 1.0     initial version
-  
   v 1.1     test features added
-  
 ------------------------------------------------------------------------
   This software/sourcecode is released under the terms of GPL v.3.0
 ------------------------------------------------------------------------
 README
 
-# Dependencies to add-on and external modules
+## Dependencies to add-on and external modules
 
 Matlab -  signal/statistik
 
