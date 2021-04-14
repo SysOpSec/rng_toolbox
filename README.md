@@ -1,6 +1,6 @@
 ## Random numbers toolbox (for MatLab)
 ------------------------------------------------------------------------
-(c) 2019, 2020, 2021 Andreas Huemmer <andreas.huemmer@sysopsec.de>
+  (c) 2019, 2020, 2021 Andreas Huemmer <andreas.huemmer@sysopsec.de>
   v 1.0     initial version 
   v 1.1     test features added
 ------------------------------------------------------------------------
