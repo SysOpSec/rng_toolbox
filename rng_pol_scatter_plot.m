@@ -1,5 +1,5 @@
 function [] = rng_pol_scatter_plots(d)
-% Generate some simple statistic plots from a given dataset
+% Generate some polar (scatter) plots from a given dataset
 %   Syntax:    [] = rng_pol_scatter_plots(d)
 %   Input:      d - vector or matrix to process
 %   Output:     none

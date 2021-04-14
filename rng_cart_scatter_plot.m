@@ -1,6 +1,6 @@
 function [] = rng_cart_scatter_plots(d)
-% Generate some simple statistic plots from a given dataset
-%   Syntax:    [] = rng_statisticplot(d)
+% Generate some cartesian (scatter) plots from a given dataset
+%   Syntax:    [] = rng_cart_scatter_plot(d)
 %   Input:      d - vector or matrix to process
 %   Output:     none
 % ------------------------------------------------------------------------
