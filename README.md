@@ -4,6 +4,7 @@
 - (c) 2019, 2020, 2021 Andreas Huemmer <andreas.huemmer@sysopsec.de>
   - v 1.0     initial version
   - v 1.1     test features added
+  see version.txt for mor details
 ------------------------------------------------------------------------
 - This software/sourcecode is released under the terms of GPL v.3.0
 ------------------------------------------------------------------------
