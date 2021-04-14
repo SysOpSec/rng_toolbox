@@ -1,0 +1,232 @@
+%% Random numbers toolbox
+%  Random number testsuite
+% ------------------------------------------------------------------------
+% (c) 2021 Andreas Huemmer <andreas.huemmer@sysopsec.de>
+%   v 1.0     initial version 
+%   v 1.1     var adds and corrections, see verstions.txt.m
+% ------------------------------------------------------------------------
+%% init workspace
+% clean desk
+clear all; close all; clc; format compact;
+set(0,'DefaultFigureColormap',feval('jet'));
+%set(0,'DefaultFigureColormap',feval('turbo'));
+set(0,'DefaultFigureWindowStyle','docked');
+%profile on;
+warning('off','all'); warning
+tic
+%% set global parameters
+MajVer = 1;
+MinVer = 1;
+
+% global variables
+global dumpfigure;
+global FILE;
+global PICDIR;
+global WORKDIR;
+
+%% DataControlBlock
+% note: 2^31 (2GB datachunk) reqires at least 24GB of RAM!!!
+% chunksize based on 8Bit interpretation
+% in most cases 2GB is the limit a 32GB machine can deal with
+% NOTE sizes greater than 2^20 might lead to systemhung due to mem
+% requirements for some calculations
+%samples = 2^31; % 2GB
+%samples = 2^16; % 64MB
+samples = 2^16;
+
+% shall created figures automatically saved as images
+% WARNING: will take some time for big sample sizes and/or vector graphics!
+dumpfigure = false;  
+%dumpfigure = true; 
+
+% work with dummy data or real data, can be 
+% 'file', 'matlab', 'rnd_lincon', 'rnd_lfsr', 'rnd_ nlfsr', 'dummy',
+% 'reference'
+% later, can also be 'gui' for interactive mode - not impemented yet
+source = 'reference';    
+%source = 'file';  
+%source = 'matlab';  
+%source = 'rnd_lincon';
+
+% export data to db
+dbexport = false;
+% server =;
+% db = ;
+% user =;
+% pass =;
+
+% environment parameters
+PICDIR  = 'y:\graphic\';    % directory for graphics
+WORKDIR = 'y:\work\';        % the datadirectory
+
+% integertype (be carefull, must be choosen according to source!!)
+itype = 'uint32';
+% seedvalue (IV) of the rng generator for reproducability - if needed
+seed =1;
+
+%% load or generate data
+switch source
+    case "file"
+        % Available (used) sources: 
+        % 'prg320.bin', 'prg420.bin', 'matlab-mt19937ar.bin', '041-randu.bin'
+        FILE    = '041-randu.bin';           
+        LOADFILE = [WORKDIR FILE];
+        %load the desired data
+        [data, n] = rng_loaddata(LOADFILE, samples, itype);
+
+    case "matlab" % must be at least uint16!!
+        % Available sources in matlab: see also RandStream.list (may differ
+        % depending on matlab version
+        % 'dsfmt19937', 'mcg16807', 'mlfg6331_64', 'mrg32k3a', 'mt19937ar', 
+        % 'philox4x32_10', 'shr3cong', 'swb2712', 'threefry4x64_20'  
+        name = 'Matlab 2021a';
+        generator = "dsfmt19937";
+        rs = RandStream.create(generator,'Seed',seed);
+        RandStream.setGlobalStream(rs);
+        FILE = strcat(name, " - ", generator);
+        % generate the data
+        data  = randi(intmax(itype), [1 samples], itype);
+        
+    case "rnd_lincon"
+        % LINCON specific setting s- get some data from our database (or 
+        % enter it manually) - look at DB file, for further info
+        conDBID = 1;  
+        [a c m name text] = lincon(conDBID);
+        %a=0 ; c=13; m=64;             % here you can use manual settings
+        FILE = strcat("RND mixed LinCon - ", num2str(a), " + ", num2str(c), "X" , " mod ", num2str(m), " - ", name);
+        % generate the data
+        data(1) = rnd_lincon(c, a, m, seed);    % put in the seed
+        for i=[2 : samples]                     % now generate the desired dataset
+             data(i) = rnd_lincon(c, a, m, data(i-1)); 
+        end
+        
+    case "rnd_lfsr"
+        disp("not yet implemented");
+        
+    case "rnd_nlfsr"
+        disp("not yet implemented");
+        
+    case "dummy"
+        % create dummy testdata instead of getting it from file
+        data  = randi(intmax(itype), [1 samples], itype);
+        FILE  = 'dummy';
+    
+    case "reference"
+        % reference can be 'ref1' ... 'refx'...see what is defined in the
+        % fucntion
+        refname = 'ref15';
+        data = rng_reference(samples, refname, itype);
+        FILE = strcat("reference", " - ", refname);
+
+    case "gui"
+        disp("not yet implemented");
+    
+    otherwise
+        finish;
+end
+%% ProgrammControlBlock
+PCB_settings        = true;
+PCB_statistic       = false;
+PCB_data_plots      = true;
+PCB_statistic_plots = true;
+PCB_simple2d_plots  = true;
+PCB_simple3d_plots  = true;
+PCB_1dfft_plots     = true;
+PCB_welch_plots     = true;
+PCB_hilbert_plots   = true;
+PCB_walsh_plots     = false;
+PCB_dct_plots       = false;
+PCB_spectral_plots  = false;
+PCB_wavelet_plots   = false;
+% wavelet toolbox
+% ltfat toolbox
+% signal processing toolbox
+
+%% collect and report the settings
+if PCB_settings
+   rng_settings(samples, source, itype, seed, MajVer, MinVer)
+end
+
+%% do some statstic tests
+% note no histcounts for uint32 or uint64 due to memory restrictions
+% !!!Out not defined yet, just do some calc!!!!
+if PCB_statistic
+    rng_statistics(data); 
+end
+
+%% plot input data 
+% see notes on histogram for uint32 or uint64 due to memory restrictions
+if PCB_data_plots 
+    rng_dataplots(data) 
+end
+
+%% do some statistics graphics
+% see notes on histogram for uint32 or uint64 due to memory restrictions
+if PCB_statistic_plots 
+    rng_statisticplots(data) 
+end
+
+%% do some simple (2D) visual tests
+if PCB_simple2d_plots 
+    rng_simpleplots(data) 
+end
+
+%% do some advaced and 3D visual tests
+if PCB_simple2d_plots 
+    rng_cart_scatter_plot(data);
+    rng_pol_scatter_plot(data);
+end
+
+%% do some tests based on fft
+if PCB_1dfft_plots 
+    rng_1d_fft(data);
+end
+%----rng_fft2D(data);
+%----rng_fft3D(data);
+
+%% do some tests based on welch
+if PCB_welch_plots
+    rng_welch_plots(data);
+end
+% extend with 2d plot of all waves
+
+%% do some tests based on hilbert
+if PCB_hilbert_plots
+    rng_hilbert_plots(data);
+end
+
+%% do some tests based on walsh
+if PCB_walsh_plots
+    rng_walsh_plots(data);
+end
+% extend with 2d plot of all waves
+
+%% do some tests based on DCT
+if PCB_dct_plots
+    rng_dct_plots(data);
+end
+% extend with 2d plot of all waves
+
+
+%% do some tests spectral analysis
+if PCB_spectral_plots
+    rng_spectral1(data);
+   % rng_spectral2(data);
+    % 2d processing is missing
+end
+%% do some tests based on CFT ???? Continious transforms ???
+
+
+%% do some tests based on wavelets
+% wavelet based convolution with complex morlet wavelets
+if PCB_wavelet_plots
+    rng_cplx_wavlet_plot;
+end
+%----rng_wavelets(data);
+% test different wavelets
+
+%% finalize
+toc
+%profile viewer;
+%profile off;
+% done

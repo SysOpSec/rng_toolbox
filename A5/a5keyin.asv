@@ -1,0 +1,59 @@
+function a5keyin(key, count)
+% Get the shiftregisters initialized with the key data
+% can also be used for framedata 
+%
+%   Syntax:   ity(in)
+%   Input:    in  - array with dataset on whitch a majority vote should be
+%               done. Must be mumeric. E.g.: [1 0 1]            
+%   Output:   maj - returns the value that occured most often in the given array    
+% ------------------------------------------------------------------------
+% (c) 2019 Andreas Huemmer <andreas.huemmer@sysopsec.de>
+%   v 1.0     initial version 
+% ------------------------------------------------------------------------
+%% get access to required globals
+    global lfsr1;
+    global lfsr1poly;
+    global lfsr1length; 
+    global lfsr2;
+    global lfsr2poly;
+    global lfsr2length; 
+    global lfsr3;
+    global lfsr3poly;
+    global lfsr3length; 
+%% do some precalculations
+    pl1 = length(lfsr1poly);           % get the length of polyvector
+    pl2 = length(lfsr2poly);           % get the length of polyvector
+    pl3 = length(lfsr3poly);           % get the length of polyvector
+
+%% keyround 
+% spec unclear, so we assume a start with the lsb of the key
+    for n = [1:1:count]
+        % init
+        fb1 = 0;
+        fb2 = 0;
+        fb3 = 0;
+        % feedback 
+        for i = [pl1:-1:1]
+            fb1 = bitxor(fb1, bitget(lfsr1, plfsr1poly(i) ) ); % xor with the next polypart
+        end
+        for i = [pl2:-1:1]
+            fb2 = bitxor(fb2, bitget(lfsr2, plfsr2poly(i) ) ); % xor with the next polypart
+        end
+        for i = [pl3:-1:1]
+            fb3 = bitxor(fb3, bitget(lfsr3, plfsr3poly(i) ) ); % xor with the next polypart
+        end
+        % apply keybit
+        fb1 = bitxor(fb1, bitget(key,n));
+        fb2 = bitxor(fb2, bitget(key,n));
+        fb3 = bitxor(fb3, bitget(key,n));
+        % now shift
+        lfsr1 = bitshift(lfsr1,1);   % one step to the left (lsb will be 0)
+        lfsr2 = bitshift(lfsr2,1);   % one step to the left (lsb will be 0)
+        lfsr3 = bitshift(lfsr3,1);   % one step to the left (lsb will be 0)
+        % put the feedbacks in
+        lfsr1 = bitor(lfsr1, fb1);   % or is ok, due to lsb is always 0
+        lfsr2 = bitor(lfsr2, fb2);   % or is ok, due to lsb is always 0
+        lfsr3 = bitor(lfsr3, fb3);   % or is ok, due to lsb is always 0
+    end    
+end
+

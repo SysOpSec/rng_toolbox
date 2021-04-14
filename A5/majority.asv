@@ -1,0 +1,14 @@
+function [maj] = majority(in)
+% Return the majority vote for a given vector
+%
+%   Syntax:   [maj] = majority(in)
+%   Input:    in  - array with dataset on whitch a majority vote should be
+%               done. Must be mumeric. E.g.: [
+%             
+%   Output:   n - an integer vector representing the polynome
+%               e.g. [3 4] for a 4th degree polynome x^4 + x^3 + 1
+%   
+outputArg1 = inputArg1;
+outputArg2 = inputArg2;
+end
+

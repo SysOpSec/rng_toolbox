@@ -1,11 +1,11 @@
-## Random numbers toolbox (for MatLab)
-------------------------------------------------------------------------
-(c) 2019, 2020, 2021 Andreas Huemmer <andreas.huemmer@sysopsec.de>
-  v 1.0     initial version 
-  v 1.1     test features added
-------------------------------------------------------------------------
-This software/sourcecode is released under the terms of GPL v.3.0
-------------------------------------------------------------------------
+%% Random numbers toolbox
+% ------------------------------------------------------------------------
+% (c) 2019, 2020, 2021 Andreas Huemmer <andreas.huemmer@sysopsec.de>
+%   v 1.0     initial version 
+%   v 1.1     test features added
+% ------------------------------------------------------------------------
+% This software/sourcecode is released under the terms of GPL v.3.0
+% ------------------------------------------------------------------------
 README
 
 Dependencies to add-on and external modules
@@ -27,3 +27,6 @@ Available modules:
 rnd_lfsr.m          simulate a linear random shift register
 rnd_lincon.m        simulate a (mixed) linear congruence generator
 rng_testsuite.m     collection of various tests for randomnumbers and signals
+
+
+
