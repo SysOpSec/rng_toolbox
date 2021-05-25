@@ -100,7 +100,7 @@ function [] = rng_welch_plots(d)
     sa.XLim = [0 ws1/2];
     sa.YScale = 'log';    
     %sa.XScale = 'log'; 
-    t = ['Leistungsspektren für Fenstergröße ' num2str(ws1)];
+    t = ['Powerspectrum fon windowsize ' num2str(ws1)];
     title(t);
     
     % windowed fft winsize #2
@@ -111,7 +111,7 @@ function [] = rng_welch_plots(d)
     sa.XLim = [0 ws2/2];
     sa.YScale = 'log';    
     %sa.XScale = 'log'; 
-    t = ['Leistungsspektren für Fenstergröße ' num2str(ws2)];
+    t = ['Powerspectrum fon windowsize ' num2str(ws2)];
     title(t);
           
     % windowed fft winsize #3
@@ -122,7 +122,7 @@ function [] = rng_welch_plots(d)
     sa.XLim = [0 ws3/2];
     sa.YScale = 'log';  
     %sa.XScale = 'log'; 
-    t = ['Leistungsspektren für Fenstergröße ' num2str(ws3)];
+    t = ['Powerspectrum fon windowsize ' num2str(ws3)];
     title(t);
     
     %%%%%%%%%pwelch(d, winsize)
@@ -135,7 +135,7 @@ function [] = rng_welch_plots(d)
     sa.XLim = [0 ws1/2];
     sa.YScale = 'log';    
     %sa.XScale = 'log'; 
-    t = ['Leistungsschätzung für Fenstergröße ' num2str(ws1)];
+    t = ['Powerestimate fon windowsize ' num2str(ws1)];
     title(t);
     
     % windowed fft winsize #2
@@ -146,7 +146,7 @@ function [] = rng_welch_plots(d)
     sa.XLim = [0 ws2/2];
     sa.YScale = 'log';    
     %sa.XScale = 'log'; 
-    t = ['Leistungsschätzung für Fenstergröße ' num2str(ws2)];
+    t = ['Powerestimate fon windowsize ' num2str(ws2)];
     title(t);
           
     % windowed fft winsize #3
@@ -157,7 +157,7 @@ function [] = rng_welch_plots(d)
     sa.XLim = [0 ws3/2];
     sa.YScale = 'log';  
     %sa.XScale = 'log'; 
-    t = ['Leistungsschätzung für Fenstergröße ' num2str(ws3)];
+    t = ['Powerestimate fon windowsize ' num2str(ws3)];
     title(t);
     
     % windowed fft winsize #1 3D
@@ -173,7 +173,7 @@ function [] = rng_welch_plots(d)
     %sa.XDir = 'reverse';
     sa.YDir = 'reverse';
     %view([30 45]);
-    t = ['Leistungsspektren für Fenstergröße ' num2str(ws1)];
+    t = ['Powerspectrum fon windowsize ' num2str(ws1)];
     title(t);
         
     % windowed fft winsize #2 3D
@@ -189,7 +189,7 @@ function [] = rng_welch_plots(d)
     %sa.XDir = 'reverse';
     sa.YDir = 'reverse';
     %view([30 45]);
-    t = ['Leistungsspektren für Fenstergröße ' num2str(ws2)];
+    t = ['Powerspectrum fon windowsize ' num2str(ws2)];
     title(t);
     
     % windowed fft winsize #3 3D
@@ -205,7 +205,7 @@ function [] = rng_welch_plots(d)
     %sa.XDir = 'reverse';
     sa.YDir = 'reverse';
     %view([30 45]);
-    t = ['Leistungsspektren für Fenstergröße ' num2str(ws3)];
+    t = ['Powerspectrum fon windowsize ' num2str(ws3)];
     title(t);
     
     

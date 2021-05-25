@@ -36,7 +36,7 @@ function [d] = rng_reference(samples, func, type)
             ref = (t/max(t(:)).*(1.75 + (cos(2*pi*fc*t)+sin(2*pi*fc*t*3).*cos(2*pi*fc*t*2))));
             ref = ref / max(ref)* double(intmax(type));
         case "ref2"
-            gausmod = exp((-t*fc*0.5).^2) * 0.5 + 0;
+            gausmod = exp((-t*fc*0.175).^2) * 0.5 + 0;
             ref = 1 + sin(10*fc*t.*gausmod);
             ref = ref / max(ref)* double(intmax(type));
         case "ref3"
@@ -63,7 +63,7 @@ function [d] = rng_reference(samples, func, type)
             ref(z1-5:z1+delta) = 0; 
             ref(z2-5:z2+delta) = 0;
         case "ref12"
-            raw = abs(randn(1,samples+1));
+            raw = abs(randn(1,samples));
             ref = raw / max(raw) * double(intmax(type));
         case "ref13"
             raw = genrand(type, ls);

@@ -56,8 +56,8 @@ dbexport = false;
 % pass =;
 
 % environment parameters
-PICDIR  = 'y:\graphic\';    % directory for graphics
-WORKDIR = 'y:\work\';        % the datadirectory
+PICDIR  = 'x:\graphic\';    % directory for graphics
+WORKDIR = 'x:\work\';        % the datadirectory
 
 % integertype (be carefull, must be choosen according to source!!)
 itype = 'uint32';
@@ -114,7 +114,7 @@ switch source
     case "reference"
         % reference can be 'ref1' ... 'refx'...see what is defined in the
         % fucntion
-        refname = 'ref15';
+        refname = 'ref10';
         data = rng_reference(samples, refname, itype);
         FILE = strcat("reference", " - ", refname);
 
@@ -126,21 +126,19 @@ switch source
 end
 %% ProgrammControlBlock
 PCB_settings        = true;
-PCB_statistic       = false;
+PCB_statistic       = true;
 PCB_data_plots      = true;
 PCB_statistic_plots = true;
 PCB_simple2d_plots  = true;
 PCB_simple3d_plots  = true;
-PCB_1dfft_plots     = true;
+PCB_fft_plots       = true;
 PCB_welch_plots     = true;
 PCB_hilbert_plots   = true;
-PCB_walsh_plots     = false;
-PCB_dct_plots       = false;
-PCB_spectral_plots  = false;
-PCB_wavelet_plots   = false;
-% wavelet toolbox
+PCB_walsh_plots     = true;
+PCB_dct_plots       = true;
+PCB_spectral_plots  = true;
+PCB_wavelet_plots   = true;
 % ltfat toolbox
-% signal processing toolbox
 
 %% collect and report the settings
 if PCB_settings
@@ -178,8 +176,8 @@ if PCB_simple2d_plots
 end
 
 %% do some tests based on fft
-if PCB_1dfft_plots 
-    rng_1d_fft(data);
+if PCB_fft_plots 
+    rng_fft_plots(data);
 end
 %----rng_fft2D(data);
 %----rng_fft3D(data);
@@ -210,20 +208,24 @@ end
 
 %% do some tests spectral analysis
 if PCB_spectral_plots
+    rng_spectral2(data);   
     rng_spectral1(data);
-   % rng_spectral2(data);
-    % 2d processing is missing
+    rng_spectral3(data);
 end
 %% do some tests based on CFT ???? Continious transforms ???
 
 
 %% do some tests based on wavelets
-% wavelet based convolution with complex morlet wavelets
 if PCB_wavelet_plots
-    rng_cplx_wavlet_plot;
+    for w = ["haar" "db2" "sym2" "coif1"]
+       rng_wavelet_1D_1_plots(data,w);
+       rng_wavelet_1D_2_plots(data,w);
+    end
+    %rng_cplx_wavlet_plot;
+    %%rng_wavelet_1D_1_plots(data,'gaus');
+    %%rng_wavelet_1D_2_plots(data,'gaus');
+
 end
-%----rng_wavelets(data);
-% test different wavelets
 
 %% finalize
 toc

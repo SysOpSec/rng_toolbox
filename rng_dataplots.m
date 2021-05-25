@@ -37,7 +37,7 @@ function [] = rng_statisticplots(d)
     sa.YAxis.Visible = 'off';
     sa.XLim = [0 numel(d)];
     %sa.Ylim = [-1.1 1.1];
-    title('Rohdaten');
+    title('Data');
     
     % absolutvalues
 %     subplot(2,1,2);

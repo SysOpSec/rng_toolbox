@@ -44,7 +44,7 @@ function [] = rng_simpleplots(d)
     %axis square;
     sa.XAxis.Visible = 'off';
     sa.YAxis.Visible = 'off';
-    title('Farbbalken');
+    title('Colorbar');
     
     % color 2D image
     subplot(3,4,[5 6 9 10]);
@@ -53,7 +53,7 @@ function [] = rng_simpleplots(d)
     %axis square;
     sa.XAxis.Visible = 'off';
     sa.YAxis.Visible = 'off';
-    title('Bild(farb)rauschen');
+    title('Color(ed) noise');
 
     % contourplot 2D image
     subplot(3,4,[7 8 11 12]);

@@ -1,6 +1,6 @@
-function [] = rng_hilbert_plots(d)
-% Generate some Hilbert plots from a given dataset
-%   Syntax:    [] = rng_hilbert_plots(d)
+function [] = rng_fft_plots(d)
+% Generate some dft plots for a given dataset
+%   Syntax:    [] = rng_fft_plots(d)
 %   Input:      d - vector or matrix to process
 %   Output:     none
 % ------------------------------------------------------------------------
@@ -14,10 +14,15 @@ function [] = rng_hilbert_plots(d)
     
     % precomputings
     d = double(d);
-    num = numel(d);
+    n = numel(d);             %number of samples
+    time = linspace(1, n, n);      %assume 1Hz samplerate
+    nyq  = linspace(1, n/2, n/2);  %only positive spectrum
     
-    % calculate hilbert
-    hi = hilbert(d);
+    % fft normalized by n and squared to get pwr, then calc the aps value
+    % of complex coeff.
+    ampl    = 2*abs((fft(d)/n).^2);
+    ampl(1) = ampl(1)/ 2;          %adjustment due to our previous shorcut
+    ang     = angle(fft(d));
     
     % create new figure
     fh = figure;
@@ -29,37 +34,43 @@ function [] = rng_hilbert_plots(d)
         set(gcf,'color','w');
     end
     
-    figname     = 'Hilbert Transform';
+    figname     = 'FFT';
     ftname      = [figname '-' FILE];
     fpfilename    = [PICDIR ftname '.png']; % save as bitmapformat
     fvfilename    = [PICDIR ftname '.pdf']; % save as vectorformat
     
-    % hilbert realpart
+    % raw data
     subplot(3,1,1);
-    plot(1:num, real(hi)); 
+    stem(time, d,'linew',1,'MarkerEdgeColor','r','MarkerFaceColor','r', 'marker', '.');
     sa = gca;
+    %sa.XAxis.Visible = 'off';
     sa.YAxis.Visible = 'off';
-    sa.XLim = [0 num];
-    %sa.YScale = 'log';    
-    title('Hilbert real');
+    sa.XLim = [0 n];
+    title('Data');
     
-    % hilbert absolut
+    % powerspectrum
     subplot(3,1,2);
-    plot(1:num, abs(hi)); 
+    stem(nyq, ampl(1:n/2),'green-s','linew',1,'MarkerEdgeColor','r','MarkerFaceColor','r', 'marker', '.');
     sa = gca;
+    %sa.XAxis.Visible = 'off';
     sa.YAxis.Visible = 'off';
-    sa.XLim = [0 num];
-    %sa.YScale = 'log';    
-    title('Hilbert absolute');
-    
-    % holbert angle
+    sa.XLim = [0 n/2];
+    sa.XScale = 'log';
+    sa.YScale = 'log';
+    title('Power');
+
+    % phasespectrum
     subplot(3,1,3);
-    plot(1:num, angle(hi)); 
+    stem(nyq, ang(1:n/2),'green-s','linew',1,'MarkerEdgeColor','r','MarkerFaceColor','r', 'marker', '.');
     sa = gca;
+    sa.XAxis.Visible = 'off';
     sa.YAxis.Visible = 'off';
-    sa.XLim = [0 num];
-    %sa.YScale = 'log';    
-    title('Hilbert phase');
+    sa.XLim = [0 n/2];
+    sa.YLim = [-pi pi];
+    sa.XScale = 'log';
+    sa.YScale = 'log';
+    
+    title('Phase');
         
     sgtitle(ftname);
     

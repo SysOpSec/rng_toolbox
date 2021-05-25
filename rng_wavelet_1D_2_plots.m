@@ -1,7 +1,9 @@
-function [] = rng_hilbert_plots(d)
-% Generate some Hilbert plots from a given dataset
-%   Syntax:    [] = rng_hilbert_plots(d)
+function [] = rng_wavelet_1D_2_plots(d,w)
+% Generate some convolution with complex wavelets plots for a given dataset
+%   Syntax:    [] = rng_wavelet_1D_1_plots(d,w)
 %   Input:      d - vector or matrix to process
+%               w - wavelet to use for processing (ony orthognal or
+%               biorthorgonal types are supported)
 %   Output:     none
 % ------------------------------------------------------------------------
 % (c) 2021 Andreas Huemmer <andreas.huemmer@sysopsec.de>
@@ -13,14 +15,13 @@ function [] = rng_hilbert_plots(d)
     global dumpfigure;
     
     % precomputings
-    d = double(d);
-    num = numel(d);
-    
-    % calculate hilbert
-    hi = hilbert(d);
+    data       = double(d);
+    n          = numel(d);
+  
+    wtree      = wpdec(d, 5, w);
     
     % create new figure
-    fh = figure;
+    %fh = figure;
 
     % set some parameters for the current figure
     if dumpfigure 
@@ -29,38 +30,19 @@ function [] = rng_hilbert_plots(d)
         set(gcf,'color','w');
     end
     
-    figname     = 'Hilbert Transform';
+    figname     = strcat('Wavelet coefficients-',w);
     ftname      = [figname '-' FILE];
     fpfilename    = [PICDIR ftname '.png']; % save as bitmapformat
     fvfilename    = [PICDIR ftname '.pdf']; % save as vectorformat
     
-    % hilbert realpart
-    subplot(3,1,1);
-    plot(1:num, real(hi)); 
+    % show coefficients
+    wpviewcf(wtree, 2);
     sa = gca;
-    sa.YAxis.Visible = 'off';
-    sa.XLim = [0 num];
-    %sa.YScale = 'log';    
-    title('Hilbert real');
-    
-    % hilbert absolut
-    subplot(3,1,2);
-    plot(1:num, abs(hi)); 
-    sa = gca;
-    sa.YAxis.Visible = 'off';
-    sa.XLim = [0 num];
-    %sa.YScale = 'log';    
-    title('Hilbert absolute');
-    
-    % holbert angle
-    subplot(3,1,3);
-    plot(1:num, angle(hi)); 
-    sa = gca;
-    sa.YAxis.Visible = 'off';
-    sa.XLim = [0 num];
-    %sa.YScale = 'log';    
-    title('Hilbert phase');
-        
+    axis tight;
+    sa.XAxis.Visible='off';
+    t = ['coefficients'];
+    title(t);
+            
     sgtitle(ftname);
     
     % if the figure should be saved run this code

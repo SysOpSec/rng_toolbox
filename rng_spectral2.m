@@ -1,6 +1,6 @@
-function [] = rng_spectral(d)
+function [] = rng_spectral2(d)
 % Generate some spectral plots from a given dataset
-%   Syntax:    [] = rng_spectral(d)
+%   Syntax:    [] = rng_spectral2(d)
 %   Input:      d - vector or matrix to process
 %   Output:     none
 % ------------------------------------------------------------------------
@@ -13,7 +13,14 @@ function [] = rng_spectral(d)
     global dumpfigure;
     
     % precomputings
+    % Parameters
+    samples = numel(d);
+    time    = 1:samples;
+    data=double(d);
     
+    % for pspectrum
+    frequencyLimits = [0 1]*pi; % Normalized frequency (rad/sample)
+    overlapPercent = 50;
     
     % create new figure
     fh = figure;
@@ -25,30 +32,30 @@ function [] = rng_spectral(d)
         set(gcf,'color','w');
     end
     
-    figname     = '1D Spektrogramanalyse';
+    figname     = 'Spektrogramanalysis I';
     ftname      = [figname '-' FILE];
     fpfilename    = [PICDIR ftname '.png']; % save as bitmapformat
     fvfilename    = [PICDIR ftname '.pdf']; % save as vectorformat
     
     % powerspectrum
     subplot(3,1,1);
-    pspectrum(double(d),'power','FrequencyLimits',[0 2]*pi);
+    pspectrum(data,'power','FrequencyLimits', frequencyLimits);
     sa = gca;
     sa.YAxis.Visible = 'off';
-    title('Leistungsspektrum');
+    title('Powerspectrum');
     
     % persistencespectrum
     subplot(3,1,2);
-    pspectrum(double(d),'persistence','FrequencyLimits',[0 2]*pi,'OverlapPercent',50);
+    pspectrum(data, 'persistence', 'FrequencyLimits', frequencyLimits, 'OverlapPercent',overlapPercent);
     sa = gca;
-    title('Persistenzspektrum');
+    title('Persistenzspectrum');
 
     % phasespectrum
     subplot(3,1,3);
-    pspectrum(double(d),'spectrogram','FrequencyLimits',[0 2]*pi,'OverlapPercent',50);
+    pspectrum(double(d),'spectrogram','FrequencyLimits', frequencyLimits, 'OverlapPercent',overlapPercent);
     sa = gca;
     title('Spectrogram');
-        
+    
     sgtitle(ftname);
     
     % if the figure should be saved run this code

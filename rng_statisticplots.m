@@ -37,7 +37,7 @@ function [] = rng_statisticplots(d)
     %sa.XAxis.Visible = 'off';
     %sa.YAxis.Visible = 'off';
     sa.XLim = [0 numel(d)];
-    title('Rohdaten');
+    title('Data');
     
     % histogram
     subplot(3,2,[3 4]);
@@ -58,11 +58,11 @@ function [] = rng_statisticplots(d)
     %axis square;
     %sa.XAxis.Visible = 'off';
     %sa.YAxis.Visible = 'off';
-    xlabel('Gleichverteilung Dichtefunktion');
+    xlabel('Equaly distributed density function');
     %ylim([0 numel(d)]);
     xticks([0 1])
     %yticks([0 300]);
-    title('P-verteilung');
+    title('P-distribution');
     
     % autocorrelation
     subplot(3,2,6);
