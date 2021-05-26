@@ -13,6 +13,8 @@
 %   v 1.16    extended testsuite and supporting functions 04/2021
 %   v 1.17    extended testsuite and supporting functions 05/2021
 %   v 1.18    extended testsuite and supporting functions 05/2021
+%   v 1.19    extended testsuite and supporting functions 05/2021
+%   v 1.20    extended testsuite and supporting functions 05/2021
 % ------------------------------------------------------------------------
 %% Things already implemented and done
 % included in v 1.0
@@ -83,6 +85,9 @@
 %--------------------------------------------------------------------
 % v 1.19 25.05.2021
 % added 1D wavlet decompositions
+%--------------------------------------------------------------------
+% v 1.20 26.05.2021
+% minor fixes and optimizations
 %--------------------------------------------------------------------
 
 %--------------------------------------------------------------------

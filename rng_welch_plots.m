@@ -96,116 +96,87 @@ function [] = rng_welch_plots(d)
     subplot(3, 4 ,1);
     plot(s1, p1); 
     sa = gca;
-    %sa.YAxis.Visible = 'off';
     sa.XLim = [0 ws1/2];
     sa.YScale = 'log';    
-    %sa.XScale = 'log'; 
-    t = ['Powerspectrum fon windowsize ' num2str(ws1)];
+    t = ['Powerspectrum for windowsize ' num2str(ws1)];
     title(t);
     
     % windowed fft winsize #2
     subplot(3,4,5);
     plot(s2, p2);
     sa = gca;
-    %sa.YAxis.Visible = 'off';
     sa.XLim = [0 ws2/2];
     sa.YScale = 'log';    
-    %sa.XScale = 'log'; 
-    t = ['Powerspectrum fon windowsize ' num2str(ws2)];
+    t = ['Powerspectrum for windowsize ' num2str(ws2)];
     title(t);
           
     % windowed fft winsize #3
     subplot(3,4,9);
     plot(s3, p3);
     sa = gca;
-    %sa.YAxis.Visible = 'off';
     sa.XLim = [0 ws3/2];
     sa.YScale = 'log';  
-    %sa.XScale = 'log'; 
-    t = ['Powerspectrum fon windowsize ' num2str(ws3)];
+    t = ['Powerspectrum for windowsize ' num2str(ws3)];
     title(t);
-    
-    %%%%%%%%%pwelch(d, winsize)
     
     % windowed fft winsize #1
     subplot(3, 4 ,2);
     plot(pw1); 
     sa = gca;
-    %sa.YAxis.Visible = 'off';
     sa.XLim = [0 ws1/2];
     sa.YScale = 'log';    
-    %sa.XScale = 'log'; 
-    t = ['Powerestimate fon windowsize ' num2str(ws1)];
+    t = ['Powerestimate for windowsize ' num2str(ws1)];
     title(t);
     
     % windowed fft winsize #2
     subplot(3,4,6);
     plot(pw2);
     sa = gca;
-    %sa.YAxis.Visible = 'off';
     sa.XLim = [0 ws2/2];
     sa.YScale = 'log';    
-    %sa.XScale = 'log'; 
-    t = ['Powerestimate fon windowsize ' num2str(ws2)];
+    t = ['Powerestimate for windowsize ' num2str(ws2)];
     title(t);
           
     % windowed fft winsize #3
     subplot(3,4,10);
     plot(pw3);
     sa = gca;
-    %sa.YAxis.Visible = 'off';
     sa.XLim = [0 ws3/2];
     sa.YScale = 'log';  
-    %sa.XScale = 'log'; 
-    t = ['Powerestimate fon windowsize ' num2str(ws3)];
+    t = ['Powerestimate for windowsize ' num2str(ws3)];
     title(t);
     
     % windowed fft winsize #1 3D
     subplot(3, 4 ,[3 4]);
     waterfall(y1mat', x1mat, p1);
     sa = gca;
-    %sa.YAxis.Visible = 'off';
-    %sa.YAxis.Visible = 'off';
-    %sa.YAxis.Visible = 'off';
     sa.XLim = [0 length(p1(:,1))];
     sa.ZScale = 'log';    
-    %sa.XScale = 'log'; 
-    %sa.XDir = 'reverse';
     sa.YDir = 'reverse';
     %view([30 45]);
-    t = ['Powerspectrum fon windowsize ' num2str(ws1)];
+    t = ['Powerspectrum for windowsize ' num2str(ws1)];
     title(t);
         
     % windowed fft winsize #2 3D
     subplot(3, 4 ,[7 8]);
     waterfall(y2mat', x2mat, p2);
     sa = gca;
-    %sa.YAxis.Visible = 'off';
-    %sa.YAxis.Visible = 'off';
-    %sa.YAxis.Visible = 'off';
     sa.XLim = [0 length(p2(:,1))];
     sa.ZScale = 'log';  
-    %sa.XScale = 'log';
-    %sa.XDir = 'reverse';
     sa.YDir = 'reverse';
     %view([30 45]);
-    t = ['Powerspectrum fon windowsize ' num2str(ws2)];
+    t = ['Powerspectrum for windowsize ' num2str(ws2)];
     title(t);
     
     % windowed fft winsize #3 3D
     subplot(3, 4 ,[11 12]);
     waterfall(y3mat', x3mat, p3);
     sa = gca;
-    %sa.YAxis.Visible = 'off';
-    %sa.YAxis.Visible = 'off';
-    %sa.YAxis.Visible = 'off';
     sa.XLim = [0 length(p3(:,1))];
     sa.ZScale = 'log';
-    %sa.XScale = 'log';
-    %sa.XDir = 'reverse';
     sa.YDir = 'reverse';
     %view([30 45]);
-    t = ['Powerspectrum fon windowsize ' num2str(ws3)];
+    t = ['Powerspectrum for windowsize ' num2str(ws3)];
     title(t);
     
     

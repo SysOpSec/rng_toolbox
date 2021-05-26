@@ -36,8 +36,8 @@ samples = 2^16;
 
 % shall created figures automatically saved as images
 % WARNING: will take some time for big sample sizes and/or vector graphics!
-dumpfigure = false;  
-%dumpfigure = true; 
+%dumpfigure = false;  
+dumpfigure = true; 
 
 % work with dummy data or real data, can be 
 % 'file', 'matlab', 'rnd_lincon', 'rnd_lfsr', 'rnd_ nlfsr', 'dummy',
@@ -114,7 +114,7 @@ switch source
     case "reference"
         % reference can be 'ref1' ... 'refx'...see what is defined in the
         % fucntion
-        refname = 'ref10';
+        refname = 'ref1';
         data = rng_reference(samples, refname, itype);
         FILE = strcat("reference", " - ", refname);
 
@@ -126,7 +126,7 @@ switch source
 end
 %% ProgrammControlBlock
 PCB_settings        = true;
-PCB_statistic       = true;
+PCB_statistic       = false;
 PCB_data_plots      = true;
 PCB_statistic_plots = true;
 PCB_simple2d_plots  = true;
@@ -136,8 +136,8 @@ PCB_welch_plots     = true;
 PCB_hilbert_plots   = true;
 PCB_walsh_plots     = true;
 PCB_dct_plots       = true;
-PCB_spectral_plots  = true;
 PCB_wavelet_plots   = true;
+PCB_spectral_plots  = true;
 % ltfat toolbox
 
 %% collect and report the settings
@@ -203,28 +203,21 @@ end
 if PCB_dct_plots
     rng_dct_plots(data);
 end
-% extend with 2d plot of all waves
-
-
-%% do some tests spectral analysis
-if PCB_spectral_plots
-    rng_spectral2(data);   
-    rng_spectral1(data);
-    rng_spectral3(data);
-end
-%% do some tests based on CFT ???? Continious transforms ???
-
-
 %% do some tests based on wavelets
 if PCB_wavelet_plots
-    for w = ["haar" "db2" "sym2" "coif1"]
+    for w = ["haar" "db2" ] % "sym2" "coif1"]
        rng_wavelet_1D_1_plots(data,w);
        rng_wavelet_1D_2_plots(data,w);
     end
     %rng_cplx_wavlet_plot;
     %%rng_wavelet_1D_1_plots(data,'gaus');
     %%rng_wavelet_1D_2_plots(data,'gaus');
-
+end
+%% do some tests spectral analysis
+if PCB_spectral_plots
+    rng_spectral2(data);   
+    rng_spectral1(data);
+    rng_spectral3(data);
 end
 
 %% finalize

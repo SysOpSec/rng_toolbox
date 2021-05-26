@@ -47,19 +47,27 @@ function [] = rng_welch_plots(d)
         if li ==1
             p1    = power;
             x1    = 1:length(p1(1,:));
-            x1mat = repmat(x, length(p1(:,1)),1);
+            x1mat = repmat(x1, length(p1(:,1)),1);
             y1    = 1:length(p1(:,1));
-            y1    = repmat(y, length(p1(1,:)), 1);
-            s1    = scope;
+            y1mat = repmat(y1, length(p1(1,:)), 1);
+            s1  = scope;
             ws1   = winsize;
             pw1   = pw;
         elseif li==2
             p2  = power;
+            x2    = 1:length(p2(1,:));
+            x2mat = repmat(x2, length(p2(:,1)),1);
+            y2    = 1:length(p2(:,1));
+            y2mat = repmat(y2, length(p2(1,:)), 1);
             s2  = scope;
             ws2 = winsize;
             pw2 = pw;
         elseif li==3        
             p3  = power;
+            x3    = 1:length(p3(1,:));
+            x3mat = repmat(x3, length(p3(:,1)),1);
+            y3    = 1:length(p3(:,1));
+            y3mat = repmat(y3, length(p3(1,:)), 1);
             s3  = scope;
             ws3 = winsize;
             pw3 = pw;
@@ -92,7 +100,7 @@ function [] = rng_welch_plots(d)
     sa.XLim = [0 ws1/2];
     sa.YScale = 'log';    
     %sa.XScale = 'log'; 
-    t = ['Leistungsspektren für Fenstergröße ' num2str(ws1)];
+    t = ['Powerspectrum for windowsize ' num2str(ws1)];
     title(t);
     
     % windowed fft winsize #2
@@ -103,101 +111,76 @@ function [] = rng_welch_plots(d)
     sa.XLim = [0 ws2/2];
     sa.YScale = 'log';    
     %sa.XScale = 'log'; 
-    t = ['Leistungsspektren für Fenstergröße ' num2str(ws2)];
+    t = ['Powerspectrum for windowsize ' num2str(ws2)];
     title(t);
           
     % windowed fft winsize #3
     subplot(3,4,9);
     plot(s3, p3);
     sa = gca;
-    %sa.YAxis.Visible = 'off';
     sa.XLim = [0 ws3/2];
     sa.YScale = 'log';  
-    %sa.XScale = 'log'; 
-    t = ['Leistungsspektren für Fenstergröße ' num2str(ws3)];
+    t = ['Powerspectrum for windowsize ' num2str(ws3)];
     title(t);
-    
-    %%%%%%%%%pwelch(d, winsize)
     
     % windowed fft winsize #1
     subplot(3, 4 ,2);
     plot(pw1); 
     sa = gca;
-    %sa.YAxis.Visible = 'off';
     sa.XLim = [0 ws1/2];
     sa.YScale = 'log';    
-    %sa.XScale = 'log'; 
-    t = ['Leistungsschätzung für Fenstergröße ' num2str(ws1)];
+    t = ['Powerestimate for windowsize ' num2str(ws1)];
     title(t);
     
     % windowed fft winsize #2
     subplot(3,4,6);
     plot(pw2);
     sa = gca;
-    %sa.YAxis.Visible = 'off';
     sa.XLim = [0 ws2/2];
     sa.YScale = 'log';    
-    %sa.XScale = 'log'; 
-    t = ['Leistungsschätzung für Fenstergröße ' num2str(ws2)];
+    t = ['Powerestimate for windowsize ' num2str(ws2)];
     title(t);
           
     % windowed fft winsize #3
     subplot(3,4,10);
     plot(pw3);
     sa = gca;
-    %sa.YAxis.Visible = 'off';
     sa.XLim = [0 ws3/2];
     sa.YScale = 'log';  
-    %sa.XScale = 'log'; 
-    t = ['Leistungsschätzung für Fenstergröße ' num2str(ws3)];
+    t = ['Powerestimate for windowsize ' num2str(ws3)];
     title(t);
     
     % windowed fft winsize #1 3D
     subplot(3, 4 ,[3 4]);
-    waterfall(y1mat'x1mat);
+    waterfall(y1mat', x1mat, p1);
     sa = gca;
-    %sa.YAxis.Visible = 'off';
-    %sa.YAxis.Visible = 'off';
-    %sa.YAxis.Visible = 'off';
     sa.XLim = [0 length(p1(:,1))];
-    sa.YScale = 'log';    
-    sa.XScale = 'log'; 
-    sa.XDir = 'reverse';
+    sa.ZScale = 'log';    
     sa.YDir = 'reverse';
     %view([30 45]);
-    t = ['Leistungsspektren für Fenstergröße ' num2str(ws1)];
+    t = ['Powerspectrum for windowsize ' num2str(ws1)];
     title(t);
         
     % windowed fft winsize #2 3D
     subplot(3, 4 ,[7 8]);
-    waterfall(1:length(p2(:,1)),s2,  p2');
+    waterfall(y2mat', x2mat, p2);
     sa = gca;
-    %sa.YAxis.Visible = 'off';
-    %sa.YAxis.Visible = 'off';
-    %sa.YAxis.Visible = 'off';
     sa.XLim = [0 length(p2(:,1))];
-    sa.YScale = 'log';  
-    sa.XScale = 'log';
-    sa.XDir = 'reverse';
+    sa.ZScale = 'log';  
     sa.YDir = 'reverse';
     %view([30 45]);
-    t = ['Leistungsspektren für Fenstergröße ' num2str(ws2)];
+    t = ['Powerspectrum for windowsize ' num2str(ws2)];
     title(t);
     
     % windowed fft winsize #3 3D
     subplot(3, 4 ,[11 12]);
-    waterfall(1:length(p3(:,1)) , s3, p3');
+    waterfall(y3mat', x3mat, p3);
     sa = gca;
-    %sa.YAxis.Visible = 'off';
-    %sa.YAxis.Visible = 'off';
-    %sa.YAxis.Visible = 'off';
     sa.XLim = [0 length(p3(:,1))];
-    sa.YScale = 'log';
-    sa.XScale = 'log';
-    sa.XDir = 'reverse';
+    sa.ZScale = 'log';
     sa.YDir = 'reverse';
     %view([30 45]);
-    t = ['Leistungsspektren für Fenstergröße ' num2str(ws3)];
+    t = ['Powerspectrum for windowsize ' num2str(ws3)];
     title(t);
     
     
