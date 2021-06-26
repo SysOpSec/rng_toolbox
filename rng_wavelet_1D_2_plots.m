@@ -42,7 +42,14 @@ function [] = rng_wavelet_1D_2_plots(d,w)
     sa.XAxis.Visible='off';
     t = ['coefficients'];
     title(t);
-            
+    % ugly hack as wpviewcf creates its own figure
+    fh = gcf;  
+    if dumpfigure 
+        set(gcf,'WindowStyle','normal')
+        set(gcf, 'Position', get(0, 'Screensize'));
+        set(gcf,'color','w');
+    end
+    
     sgtitle(ftname);
     
     % if the figure should be saved run this code

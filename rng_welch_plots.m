@@ -14,6 +14,7 @@ function [] = rng_welch_plots(d)
     
     % precomputings
     d = double(d);
+    %winsizes = [(65939-1)/4 (65939-1)/5 (65939-1)/6];
     winsizes = [100 1000 10000];
     
     li = 0;

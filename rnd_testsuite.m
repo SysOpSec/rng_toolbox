@@ -4,6 +4,7 @@
 % (c) 2021 Andreas Huemmer <andreas.huemmer@sysopsec.de>
 %   v 1.0     initial version 
 %   v 1.1     var adds and corrections, see verstions.txt.m
+%   v 1.2     var adds and corrections, see verstions.txt.m
 % ------------------------------------------------------------------------
 %% init workspace
 % clean desk
@@ -16,7 +17,7 @@ warning('off','all'); warning
 tic
 %% set global parameters
 MajVer = 1;
-MinVer = 1;
+MinVer = 2;
 
 % global variables
 global dumpfigure;
@@ -28,11 +29,12 @@ global WORKDIR;
 % note: 2^31 (2GB datachunk) reqires at least 24GB of RAM!!!
 % chunksize based on 8Bit interpretation
 % in most cases 2GB is the limit a 32GB machine can deal with
-% NOTE sizes greater than 2^20 might lead to systemhung due to mem
+% NOTE sizes greater than 2^20 might even lead to systemhung due to mem
 % requirements for some calculations
 %samples = 2^31; % 2GB
 %samples = 2^16; % 64MB
-samples = 2^16;
+samples = 2^18;
+
 
 % shall created figures automatically saved as images
 % WARNING: will take some time for big sample sizes and/or vector graphics!
@@ -43,10 +45,12 @@ dumpfigure = true;
 % 'file', 'matlab', 'rnd_lincon', 'rnd_lfsr', 'rnd_ nlfsr', 'dummy',
 % 'reference'
 % later, can also be 'gui' for interactive mode - not impemented yet
-source = 'reference';    
-%source = 'file';  
+%ssource = 'reference';    
+%ource = 'file';  
 %source = 'matlab';  
-%source = 'rnd_lincon';
+source = 'rnd_lincon';
+%source = 'rnd_lfsr';
+%source = 'rnd_nlfsr';
 
 % export data to db
 dbexport = false;
@@ -69,11 +73,13 @@ switch source
     case "file"
         % Available (used) sources: 
         % 'prg320.bin', 'prg420.bin', 'matlab-mt19937ar.bin', '041-randu.bin'
-        FILE    = '041-randu.bin';           
+        FILE    = '041-randu.bin'; 
+        TXT     = ' '    
         LOADFILE = [WORKDIR FILE];
         %load the desired data
         [data, n] = rng_loaddata(LOADFILE, samples, itype);
-
+        FILE=convertCharsToStrings(FILE);
+        
     case "matlab" % must be at least uint16!!
         % Available sources in matlab: see also RandStream.list (may differ
         % depending on matlab version
@@ -90,9 +96,10 @@ switch source
     case "rnd_lincon"
         % LINCON specific setting s- get some data from our database (or 
         % enter it manually) - look at DB file, for further info
-        conDBID = 1;  
+        conDBID = 2;  
         [a c m name text] = lincon(conDBID);
-        %a=0 ; c=13; m=64;             % here you can use manual settings
+        %a=0 ; c=23; m=65537;              % here you can use manual settings
+        name ='periodentest';
         FILE = strcat("RND mixed LinCon - ", num2str(a), " + ", num2str(c), "X" , " mod ", num2str(m), " - ", name);
         % generate the data
         data(1) = rnd_lincon(c, a, m, seed);    % put in the seed
@@ -101,10 +108,36 @@ switch source
         end
         
     case "rnd_lfsr"
-        disp("not yet implemented");
+        l = 16;                       % length of the shift register
+        p = lfsr_poly(l);             % get a maximum length polynomial 
+                                      % for the feedback function
+        name = num2str(l) + "Bit LFSR"; % create a nice heading for reports
+        text = " taps at " + num2str(p);
+        FILE = strcat(name, text);
+        % generate the data
+        data(1) = rnd_lfsr(p, l, seed);   % put in the seed (note it is a
+                                         % parallel load)
+        for i=[2 : samples]              % now generate the desired dataset
+          data(i)=rnd_lfsr(p, l, data(i-1));  
+        end
+
+        disp("experimental");
         
     case "rnd_nlfsr"
-        disp("not yet implemented");
+        l = 16;                       % length of the shift register
+        [p q] = nlfsr_poly(l);            % get a maximum length polynomial 
+                                      % for the feedback function
+        name = num2str(l) + "Bit NLFSR"; % create a nice heading for reports
+        text =  " linear taps at " + num2str(p) + " + nonlinear taps at " + num2str(q);
+        FILE = strcat(name, text);
+        % generate the data
+        data(1) = rnd_lfsr(p, l, seed);   % put in the seed (note it is a
+                                         % parallel load)
+        for i=[2 : samples]              % now generate the desired dataset
+          data(i)=rnd_lfsr(p, l, data(i-1));  
+        end
+
+        disp("experimental");
         
     case "dummy"
         % create dummy testdata instead of getting it from file
@@ -114,7 +147,7 @@ switch source
     case "reference"
         % reference can be 'ref1' ... 'refx'...see what is defined in the
         % fucntion
-        refname = 'ref1';
+        refname = 'ref10';
         data = rng_reference(samples, refname, itype);
         FILE = strcat("reference", " - ", refname);
 
@@ -127,17 +160,18 @@ end
 %% ProgrammControlBlock
 PCB_settings        = true;
 PCB_statistic       = false;
-PCB_data_plots      = true;
+PCB_data_plots      = false;
 PCB_statistic_plots = true;
-PCB_simple2d_plots  = true;
-PCB_simple3d_plots  = true;
-PCB_fft_plots       = true;
-PCB_welch_plots     = true;
-PCB_hilbert_plots   = true;
-PCB_walsh_plots     = true;
-PCB_dct_plots       = true;
-PCB_wavelet_plots   = true;
-PCB_spectral_plots  = true;
+PCB_simple2d_plots  = false;
+PCB_simple3d_plots  = false;
+PCB_scatter_plots   = false;
+PCB_fft_plots       = false;
+PCB_welch_plots     = false;
+PCB_hilbert_plots   = false;
+PCB_walsh_plots     = false;
+PCB_dct_plots       = false;
+PCB_wavelet_plots   = false;
+PCB_spectral_plots  = false;
 % ltfat toolbox
 
 %% collect and report the settings
@@ -155,22 +189,27 @@ end
 %% plot input data 
 % see notes on histogram for uint32 or uint64 due to memory restrictions
 if PCB_data_plots 
-    rng_dataplots(data) 
+    rng_dataplots(data); 
 end
 
 %% do some statistics graphics
 % see notes on histogram for uint32 or uint64 due to memory restrictions
 if PCB_statistic_plots 
-    rng_statisticplots(data) 
+    rng_statisticplots(data); 
 end
 
 %% do some simple (2D) visual tests
 if PCB_simple2d_plots 
-    rng_simpleplots(data) 
+    rng_simpleplots(data); 
 end
 
-%% do some advaced and 3D visual tests
-if PCB_simple2d_plots 
+%% do some simple (3D) visual tests
+if PCB_simple3d_plots 
+   disp("not yet implemented");
+end
+
+%% do some scatter visual tests
+if PCB_scatter_plots 
     rng_cart_scatter_plot(data);
     rng_pol_scatter_plot(data);
 end
@@ -179,14 +218,11 @@ end
 if PCB_fft_plots 
     rng_fft_plots(data);
 end
-%----rng_fft2D(data);
-%----rng_fft3D(data);
 
 %% do some tests based on welch
 if PCB_welch_plots
     rng_welch_plots(data);
 end
-% extend with 2d plot of all waves
 
 %% do some tests based on hilbert
 if PCB_hilbert_plots
@@ -197,7 +233,6 @@ end
 if PCB_walsh_plots
     rng_walsh_plots(data);
 end
-% extend with 2d plot of all waves
 
 %% do some tests based on DCT
 if PCB_dct_plots

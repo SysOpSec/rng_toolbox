@@ -15,6 +15,8 @@
 %   v 1.18    extended testsuite and supporting functions 05/2021
 %   v 1.19    extended testsuite and supporting functions 05/2021
 %   v 1.20    extended testsuite and supporting functions 05/2021
+%   v 1.21    extended testsuite and supporting functions 06/2021
+%   v 1.22    optimization, improvements and correction of erros 06/2021
 % ------------------------------------------------------------------------
 %% Things already implemented and done
 % included in v 1.0
@@ -89,14 +91,17 @@
 % v 1.20 26.05.2021
 % minor fixes and optimizations
 %--------------------------------------------------------------------
+% v 1.22 26.06.2021
+% minor fixes and optimizations
+% added some experimental stuff
+% cleanups
+%--------------------------------------------------------------------
 
 %--------------------------------------------------------------------
 % Planed:
-% - extension of spectral analysis
-% - wavelet transform
-% - play around with wavelet toolbox
-% - play arround with signalanlalyzer
 % - externalize figure settings in own subfucntion
+% - externalize dump in subfunction, along with option to choos for image
+% or vector dump
 % - play around with ltfat
 %
 %--------------------------------------------------------------------
@@ -108,18 +113,17 @@
 % histogram-functions do not scale for integers > uint16
 %   reduce calculatation for bins and limit to u16
 % lincon has some issues with datatype
-% lfsr to be checked if output of sr is done right
+% hostogram bin calculation does not work well under certain circumsdances
 
 %% Things that are on my todo list
 %--------------------------------------------------------------------
-% Planed vor next versions
+% Planed for next versions
 % done - add fileinput for testing (v 1.1)
-% wip - improvement of graphics output (v 1.1)
 % wip - improvement of statistics output (v 1.1)
 % wip - improvement of testsuite and its interface over all (v 1.1)
 % - add generalized non linear timing for glfsr (v 2.0)
-% - add generalized non linert taps beween multiple gnlfsr (v 2.0)
-% - add generalized non liener tap on output of gnlfsr(v 2.0)
+% - add generalized non linear taps beween multiple gnlfsr (v 2.0)
+% - add generalized non linear tap on output of gnlfsr(v 2.0)
 % - add A5/1 as an example (v 1.2)
 % - add other rng algorithms like KISS/XORSHIFT/Twister etc. (v 3.0)
 % - add other krypto algorithms like AED/DES etc. (v 3.0)

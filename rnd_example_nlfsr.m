@@ -41,6 +41,3 @@ rnd(1) = rnd_nlfsr(p, q, l, seed);    % put in the seed (note it is a
 for i=[2 : samples]                     % now generate the desired dataset
     rnd(i)=rnd_nlfsr(p, q, l, rnd(i-1));  
 end
-%% do some processing
-rnd_test(rnd, samples, textheading);    % look at your data and get some 
-                                        % nice figures

@@ -17,14 +17,11 @@ function [] = rng_walsh(d)
     n = numel(d);             %number of samples
    
     % Discrete Walsh-Hadamard Transform
-    W = fwht(d,n);
-    y = fwht(d,n,'hadamard');
-    yy = fwht(d,n,'dyadic');
-    yyy = fwht(d,n,'sequency');
-    
-    k=find(W==0);
-    l = find(yy==0);
-    
+    %WS = fwht(d,n);
+    WSh = fwht(d,n,'hadamard');
+    WSd = fwht(d,n,'dyadic');
+    WSs = fwht(d,n,'sequency');
+     
     % create new figure
     fh = figure;
 
@@ -41,9 +38,8 @@ function [] = rng_walsh(d)
     fvfilename    = [PICDIR ftname '.pdf']; % save as vectorformat
     
     % walsh seq
-    subplot(2,2,1);
-    plot(W);
-    %stem(time, d,'linew',1,'MarkerEdgeColor','r','MarkerFaceColor','r', 'marker', '.');
+    subplot(3,2,1);
+    plot(WSs);
     sa = gca;
     %sa.XAxis.Visible = 'off';
     sa.YAxis.Visible = 'off';
@@ -52,9 +48,8 @@ function [] = rng_walsh(d)
     title('WHT sequency');
     
     % walsh img seq
-    subplot(2,2,2);
-    %stem(nyq, ampl(1:n/2),'green-s','linew',1,'MarkerEdgeColor','r','MarkerFaceColor','r', 'marker', '.');
-    imagesc(log(abs(W)));
+    subplot(3,2,2);
+    imagesc(log(abs(WSs)));
     sa = gca;
     %sa.XAxis.Visible = 'off';
     sa.YAxis.Visible = 'off';
@@ -64,9 +59,8 @@ function [] = rng_walsh(d)
     title('Imaging WHT sequency');
 
     % walsh hdamard
-    subplot(2,2,3);
-    plot(y);
-    %stem(time, d,'linew',1,'MarkerEdgeColor','r','MarkerFaceColor','r', 'marker', '.');
+    subplot(3,2,3);
+    plot(WSh);
     sa = gca;
     %sa.XAxis.Visible = 'off';
     sa.YAxis.Visible = 'off';
@@ -75,9 +69,8 @@ function [] = rng_walsh(d)
     title('WHT hadamard');
     
     % walsh hadamard img
-    subplot(2,2,4);
-    %stem(nyq, ampl(1:n/2),'green-s','linew',1,'MarkerEdgeColor','r','MarkerFaceColor','r', 'marker', '.');
-    imagesc(log(abs(y)));
+    subplot(3,2,4);
+    imagesc(log(abs(WSh)));
     sa = gca;
     %sa.XAxis.Visible = 'off';
     sa.YAxis.Visible = 'off';
@@ -86,7 +79,27 @@ function [] = rng_walsh(d)
     sa.YScale = 'log';
     title('Imaging WHT hadamard');
     
-        
+    % walsh dyadic
+    subplot(3,2,5);
+    plot(WSd);
+    sa = gca;
+    %sa.XAxis.Visible = 'off';
+    sa.YAxis.Visible = 'off';
+    sa.YScale = 'log';
+    sa.XLim = [0 n];
+    title('WHT dyadic');
+    
+    % walsh dyadic img
+    subplot(3,2,6);
+    imagesc(log(abs(WSd)));
+    sa = gca;
+    %sa.XAxis.Visible = 'off';
+    sa.YAxis.Visible = 'off';
+    sa.XLim = [0 n];
+    %sa.XScale = 'log';
+    sa.YScale = 'log';
+    title('Imaging WHT dyadic');
+            
     sgtitle(ftname);
     
     % if the figure should be saved run this code

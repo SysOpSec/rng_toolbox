@@ -13,6 +13,7 @@ function [] = rng_statisticplots(d)
     global dumpfigure;
     
     % precomputings
+    samples = numel(d);
     
     % create new figure
     fh = figure;
@@ -66,7 +67,8 @@ function [] = rng_statisticplots(d)
     
     % autocorrelation
     subplot(3,2,6);
-    autocorr(double(d),'NumLags',100,'NumSTD',3,'NumMA',0);
+    %autocorr(double(d),'NumLags',1000000,'NumSTD',3,'NumMA',0);
+    autocorr(double(d),'NumLags',samples-1 ,'NumSTD',3,'NumMA',0);
     sa = gca;
     %axis square;
     %sa.XAxis.Visible = 'off';
